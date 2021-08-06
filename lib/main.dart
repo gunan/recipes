@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipes/grid_buttons/grid_buttons.dart';
+import 'package:recipes/fancy_recipe_page/fancy_recipe_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -51,6 +52,11 @@ class _MyHomePageState extends State<MyHomePage> {
     print("noop");
   }
 
+  void toFancyRecipePage(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => FancyRecipePage()));
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -74,7 +80,8 @@ class _MyHomePageState extends State<MyHomePage> {
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
             children: <Widget>[
-              GridButton("Cool recipes", Colors.blue, noop),
+              GridButton("Cool recipes", Colors.blue,
+                  () => toFancyRecipePage(context)),
               GridButton("Simple recipes", Colors.green, noop),
             ]),
       ),
