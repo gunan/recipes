@@ -1,0 +1,51 @@
+import 'package:flutter/material.dart';
+
+class PlainRecipePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Plain Recipe Page')),
+      body: Center(
+          child: Row(
+        children: [
+          // Placeholder for recipe menu
+          SizedBox(
+            width: 200,
+            height: 400,
+            child: ListView(
+              children: [
+                ListTile(title: Text("Butter Chicken")),
+                ListTile(title: Text("recipe 2"))
+              ],
+            ),
+          ),
+          VerticalDivider(),
+          SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: SizedBox(
+              width: 600,
+              height: 10000,
+              child: Card(
+                child: Column(
+                  children: [
+                    ListTile(
+                        title: Text('Dice Chicken'),
+                        subtitle: Text('foo bar baz')),
+                    Divider(),
+                    ListTile(
+                        title: Text(
+                            'Fry chicken with olive oil and tandoori masala'),
+                        subtitle: Text('foo bar baz')),
+                    Divider(),
+                    Text(
+                        'Some Recipe stuff\n\n\n\n\n\na\n\nn\n\n\n\na\n\n\n\n\na'),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      )),
+    );
+  }
+}

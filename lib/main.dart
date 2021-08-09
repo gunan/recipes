@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recipes/grid_buttons/grid_buttons.dart';
 import 'package:recipes/fancy_recipe_page/fancy_recipe_page.dart';
+import 'package:recipes/plain_recipe_page/plain_recipe_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -48,13 +49,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  void noop() {
-    print("noop");
-  }
-
   void toFancyRecipePage(BuildContext context) {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => FancyRecipePage()));
+  }
+
+  void toPlainRecipePage(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => PlainRecipePage()));
   }
 
   @override
@@ -82,7 +84,8 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               GridButton("Cool recipes", Colors.blue,
                   () => toFancyRecipePage(context)),
-              GridButton("Simple recipes", Colors.green, noop),
+              GridButton("Simple recipes", Colors.green,
+                  () => toPlainRecipePage(context)),
             ]),
       ),
     );
