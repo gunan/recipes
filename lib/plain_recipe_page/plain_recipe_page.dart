@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
-class PlainRecipePage extends StatelessWidget {
+class PlainRecipePage extends StatefulWidget {
+  @override
+  _PlainRecipePageState createState() => _PlainRecipePageState();
+}
+
+class _PlainRecipePageState extends State<PlainRecipePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
