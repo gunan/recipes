@@ -10,7 +10,7 @@ class PlainRecipePage extends StatefulWidget {
 class _PlainRecipePageState extends State<PlainRecipePage> {
   // Just bear with me for now...
   final Future<List<Recipe>> _recipeList = loadRecipesFromJSON();
-  final int _selectedRecipe = 1;
+  int _selectedRecipe = -1;
 
   Widget createRecipeNameList(BuildContext context) {
     return SingleChildScrollView(
@@ -24,8 +24,25 @@ class _PlainRecipePageState extends State<PlainRecipePage> {
                 (BuildContext context, AsyncSnapshot<List<Recipe>> snapshot) {
               if (snapshot.hasData) {
                 List<Widget> children = [];
-                for (var i in snapshot.data ?? []) {
-                  children.add(ListTile(title: Text(i.name)));
+                int i = 0;
+                for (var rec in snapshot.data ?? []) {
+                  int index = i;
+                  children.add(
+                    GestureDetector(
+                      child: Container(
+                        color:
+                            i == _selectedRecipe ? Colors.blue : Colors.white,
+                        child: ListTile(title: Text(rec.name)),
+                      ),
+                      onTap: () {
+                        setState(() {
+                          print("$_selectedRecipe, $index, ${rec.name}");
+                          _selectedRecipe = index;
+                        });
+                      },
+                    ),
+                  );
+                  i++;
                 }
                 return ListView(children: children);
               } else if (snapshot.hasError) {
