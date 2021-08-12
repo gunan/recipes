@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:recipes/error_stuffs.dart';
 import 'package:recipes/ingredients_card.dart';
+import 'package:recipes/instructions_card.dart';
 import 'package:recipes/recipe_reader_from_json.dart';
 import 'package:recipes/recipe_title_card.dart';
 
@@ -14,6 +15,7 @@ class _PlainRecipePageState extends State<PlainRecipePage> {
   // Just bear with me for now...
   final Future<List<Recipe>> _recipeList = loadRecipesFromJSON();
   int _selectedRecipe = -1;
+  Recipe? _recipeToView = null;
 
   Widget _buildRecipeStuff(Recipe? r) {
     if (r == null) {
@@ -23,23 +25,13 @@ class _PlainRecipePageState extends State<PlainRecipePage> {
         scrollDirection: Axis.vertical,
         child: SizedBox(
           width: 600,
-          child: Card(
-            child: Column(
-              children: [
-                // title
-                RecipeTitleCard(r.name),
-                IngredientsCard(r.ingredients),
-                ListTile(
-                    title: Text('Dice Chicken'), subtitle: Text('foo bar baz')),
-                Divider(),
-                ListTile(
-                    title:
-                        Text('Fry chicken with olive oil and tandoori masala'),
-                    subtitle: Text('foo bar baz')),
-                Divider(),
-                Text('Some Recipe stuff\n\n\n\n\n\na\n\nn\n\n\n\na\n\n\n\n\na'),
-              ],
-            ),
+          child: Column(
+            children: [
+              // title
+              RecipeTitleCard(r.name),
+              IngredientsCard(r.ingredients),
+              InstructionsCard(r.steps),
+            ],
           ),
         ),
       );
@@ -71,6 +63,7 @@ class _PlainRecipePageState extends State<PlainRecipePage> {
                       onTap: () {
                         setState(() {
                           _selectedRecipe = index;
+                          _recipeToView = rec;
                         });
                       },
                     ),
@@ -94,20 +87,7 @@ class _PlainRecipePageState extends State<PlainRecipePage> {
       return Text("Please first select a recipe from the left side.",
           style: TextStyle(fontSize: 24));
     } else {
-      return FutureBuilder<List<Recipe>>(
-          future: _recipeList,
-          builder:
-              (BuildContext context, AsyncSnapshot<List<Recipe>> snapshot) {
-            if (snapshot.hasData) {
-              Recipe? recipeToShow =
-                  snapshot.data?.elementAt(this._selectedRecipe);
-              return _buildRecipeStuff(recipeToShow);
-            } else if (snapshot.hasError) {
-              return fancyErrorMessage(snapshot.error.toString());
-            } else {
-              return fancyProgressIndicator();
-            }
-          });
+      return _buildRecipeStuff(this._recipeToView);
     }
   }
 
