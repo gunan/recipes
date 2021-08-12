@@ -6,6 +6,10 @@ class RecipeTitleCard extends Card {
             child: ListTile(
                 title: Text(
           title,
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
         )));
 }

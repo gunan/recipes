@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:recipes/error_stuffs.dart';
+import 'package:recipes/ingredients_card.dart';
 import 'package:recipes/recipe_reader_from_json.dart';
 import 'package:recipes/recipe_title_card.dart';
 
@@ -22,11 +23,12 @@ class _PlainRecipePageState extends State<PlainRecipePage> {
         scrollDirection: Axis.vertical,
         child: SizedBox(
           width: 600,
-          height: 10000,
           child: Card(
             child: Column(
               children: [
+                // title
                 RecipeTitleCard(r.name),
+                IngredientsCard(r.ingredients),
                 ListTile(
                     title: Text('Dice Chicken'), subtitle: Text('foo bar baz')),
                 Divider(),
