@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:recipes/recipe_reader_from_json.dart';
 
 class IngredientsCard extends StatefulWidget {
-  List<String> ingredients;
+  final List<String> ingredients;
 
   IngredientsCard(this.ingredients);
 
@@ -11,7 +10,7 @@ class IngredientsCard extends StatefulWidget {
 }
 
 class _IngredientsCardState extends State<IngredientsCard> {
-  List<String> ingredients;
+  final List<String> ingredients;
 
   _IngredientsCardState(this.ingredients);
 
