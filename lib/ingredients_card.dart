@@ -1,18 +1,9 @@
 import 'package:flutter/material.dart';
 
-class IngredientsCard extends StatefulWidget {
+class IngredientsCard extends StatelessWidget {
   final List<String> ingredients;
 
-  IngredientsCard(this.ingredients);
-
-  @override
-  _IngredientsCardState createState() => _IngredientsCardState(ingredients);
-}
-
-class _IngredientsCardState extends State<IngredientsCard> {
-  final List<String> ingredients;
-
-  _IngredientsCardState(this.ingredients);
+  const IngredientsCard(this.ingredients);
 
   Widget build(BuildContext context) {
     List<ListTile> _ingredientsList = this.ingredients.map((val) {

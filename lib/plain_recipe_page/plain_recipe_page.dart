@@ -15,7 +15,7 @@ class _PlainRecipePageState extends State<PlainRecipePage> {
   // Just bear with me for now...
   final Future<List<Recipe>> _recipeList = loadRecipesFromJSON();
   int _selectedRecipe = -1;
-  Recipe? _recipeToView = null;
+  Recipe? _recipeToView;
 
   Widget _buildRecipeStuff(Recipe? r) {
     if (r == null) {

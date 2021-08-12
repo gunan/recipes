@@ -1,18 +1,9 @@
 import 'package:flutter/material.dart';
 
-class InstructionsCard extends StatefulWidget {
+class InstructionsCard extends StatelessWidget {
   final List<String> instructions;
 
-  InstructionsCard(this.instructions);
-
-  @override
-  _InstructionsCardState createState() => _InstructionsCardState(instructions);
-}
-
-class _InstructionsCardState extends State<InstructionsCard> {
-  final List<String> instructions;
-
-  _InstructionsCardState(this.instructions);
+  const InstructionsCard(this.instructions);
 
   Widget build(BuildContext context) {
     List<Card> _instructionList = this.instructions.map((val) {
