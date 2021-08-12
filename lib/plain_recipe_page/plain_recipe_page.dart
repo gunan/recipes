@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:recipes/error_stuffs.dart';
 import 'package:recipes/recipe_reader_from_json.dart';
+import 'package:recipes/recipe_title_card.dart';
 
 class PlainRecipePage extends StatefulWidget {
   @override
@@ -11,6 +13,36 @@ class _PlainRecipePageState extends State<PlainRecipePage> {
   // Just bear with me for now...
   final Future<List<Recipe>> _recipeList = loadRecipesFromJSON();
   int _selectedRecipe = -1;
+
+  Widget _buildRecipeStuff(Recipe? r) {
+    if (r == null) {
+      return fancyErrorMessage("Everything is something happened.");
+    } else {
+      return SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: SizedBox(
+          width: 600,
+          height: 10000,
+          child: Card(
+            child: Column(
+              children: [
+                RecipeTitleCard(r.name),
+                ListTile(
+                    title: Text('Dice Chicken'), subtitle: Text('foo bar baz')),
+                Divider(),
+                ListTile(
+                    title:
+                        Text('Fry chicken with olive oil and tandoori masala'),
+                    subtitle: Text('foo bar baz')),
+                Divider(),
+                Text('Some Recipe stuff\n\n\n\n\n\na\n\nn\n\n\n\na\n\n\n\n\na'),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+  }
 
   Widget createRecipeNameList(BuildContext context) {
     return SingleChildScrollView(
@@ -36,7 +68,6 @@ class _PlainRecipePageState extends State<PlainRecipePage> {
                       ),
                       onTap: () {
                         setState(() {
-                          print("$_selectedRecipe, $index, ${rec.name}");
                           _selectedRecipe = index;
                         });
                       },
@@ -46,33 +77,9 @@ class _PlainRecipePageState extends State<PlainRecipePage> {
                 }
                 return ListView(children: children);
               } else if (snapshot.hasError) {
-                return Column(
-                  children: <Widget>[
-                    const Icon(
-                      Icons.error_outline,
-                      color: Colors.red,
-                      size: 60,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16),
-                      child: Text('Error: ${snapshot.error}'),
-                    )
-                  ],
-                );
+                return fancyErrorMessage(snapshot.error.toString());
               } else {
-                return Column(
-                  children: <Widget>[
-                    SizedBox(
-                      child: CircularProgressIndicator(),
-                      width: 60,
-                      height: 60,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 16),
-                      child: Text('Awaiting result...'),
-                    )
-                  ],
-                );
+                return fancyProgressIndicator();
               }
             }),
       ),
@@ -85,28 +92,20 @@ class _PlainRecipePageState extends State<PlainRecipePage> {
       return Text("Please first select a recipe from the left side.",
           style: TextStyle(fontSize: 24));
     } else {
-      return SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: SizedBox(
-          width: 600,
-          height: 10000,
-          child: Card(
-            child: Column(
-              children: [
-                ListTile(
-                    title: Text('Dice Chicken'), subtitle: Text('foo bar baz')),
-                Divider(),
-                ListTile(
-                    title:
-                        Text('Fry chicken with olive oil and tandoori masala'),
-                    subtitle: Text('foo bar baz')),
-                Divider(),
-                Text('Some Recipe stuff\n\n\n\n\n\na\n\nn\n\n\n\na\n\n\n\n\na'),
-              ],
-            ),
-          ),
-        ),
-      );
+      return FutureBuilder<List<Recipe>>(
+          future: _recipeList,
+          builder:
+              (BuildContext context, AsyncSnapshot<List<Recipe>> snapshot) {
+            if (snapshot.hasData) {
+              Recipe? recipeToShow =
+                  snapshot.data?.elementAt(this._selectedRecipe);
+              return _buildRecipeStuff(recipeToShow);
+            } else if (snapshot.hasError) {
+              return fancyErrorMessage(snapshot.error.toString());
+            } else {
+              return fancyProgressIndicator();
+            }
+          });
     }
   }
 
