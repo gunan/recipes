@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:recipes/error_stuffs.dart';
-import 'package:recipes/ingredients_card.dart';
-import 'package:recipes/instructions_card.dart';
+import 'package:recipes/plain_recipe_page/ingredients_card.dart';
+import 'package:recipes/plain_recipe_page/instructions_card.dart';
 import 'package:recipes/recipe_reader_from_json.dart';
-import 'package:recipes/recipe_title_card.dart';
+import 'package:recipes/plain_recipe_page/recipe_title_card.dart';
 
 class PlainRecipePage extends StatefulWidget {
   @override
