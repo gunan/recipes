@@ -81,28 +81,33 @@ class _PlainRecipePageState extends State<PlainRecipePage> {
 
   Widget createRecipeView() {
     // if nothing is selected yet, let people know how to select something
-    // Recipe r = _recipeList.recipes[_selectedRecipe];
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: SizedBox(
-        width: 600,
-        height: 10000,
-        child: Card(
-          child: Column(
-            children: [
-              ListTile(
-                  title: Text('Dice Chicken'), subtitle: Text('foo bar baz')),
-              Divider(),
-              ListTile(
-                  title: Text('Fry chicken with olive oil and tandoori masala'),
-                  subtitle: Text('foo bar baz')),
-              Divider(),
-              Text('Some Recipe stuff\n\n\n\n\n\na\n\nn\n\n\n\na\n\n\n\n\na'),
-            ],
+    if (_selectedRecipe == -1) {
+      return Text("Please first select a recipe from the left side.",
+          style: TextStyle(fontSize: 24));
+    } else {
+      return SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: SizedBox(
+          width: 600,
+          height: 10000,
+          child: Card(
+            child: Column(
+              children: [
+                ListTile(
+                    title: Text('Dice Chicken'), subtitle: Text('foo bar baz')),
+                Divider(),
+                ListTile(
+                    title:
+                        Text('Fry chicken with olive oil and tandoori masala'),
+                    subtitle: Text('foo bar baz')),
+                Divider(),
+                Text('Some Recipe stuff\n\n\n\n\n\na\n\nn\n\n\n\na\n\n\n\n\na'),
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    }
   }
 
   @override
