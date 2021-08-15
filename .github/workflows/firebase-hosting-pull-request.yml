@@ -7,9 +7,9 @@ jobs:
   build_and_preview:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - run: npm ci && npm run build
+          # Check out the code.
+      - name: Check out the code
+        uses: actions/checkout@v2
 
       # Set up flutter
       - name: Clone flutter repository with beta channel
@@ -26,11 +26,12 @@ jobs:
       - name: Enable flutter web
         run: flutter config --enable-web
       # Build the code
-      - run: flutter build web
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - name: Build the code for web hosting.
+        run: flutter build web
+
+      - name: Deploy to firebase
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_GUNAN_RECIPES }}'
           projectId: gunan-recipes
-        env:
-          FIREBASE_CLI_PREVIEWS: hostingchannels
