@@ -39,46 +39,37 @@ class _PlainRecipePageState extends State<PlainRecipePage> {
   }
 
   Widget createRecipeNameList(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: SizedBox(
-        width: 200,
-        height: 1000,
-        child: FutureBuilder<List<Recipe>>(
-            future: _recipeList,
-            builder:
-                (BuildContext context, AsyncSnapshot<List<Recipe>> snapshot) {
-              if (snapshot.hasData) {
-                List<Widget> children = [];
-                int i = 0;
-                for (var rec in snapshot.data ?? []) {
-                  int index = i;
-                  children.add(
-                    GestureDetector(
-                      child: Container(
-                        color:
-                            i == _selectedRecipe ? Colors.blue : Colors.white,
-                        child: ListTile(title: Text(rec.name)),
-                      ),
-                      onTap: () {
-                        setState(() {
-                          _selectedRecipe = index;
-                          _recipeToView = rec;
-                        });
-                      },
-                    ),
-                  );
-                  i++;
-                }
-                return ListView(children: children);
-              } else if (snapshot.hasError) {
-                return fancyErrorMessage(snapshot.error.toString());
-              } else {
-                return fancyProgressIndicator();
-              }
-            }),
-      ),
-    );
+    return FutureBuilder<List<Recipe>>(
+        future: _recipeList,
+        builder: (BuildContext context, AsyncSnapshot<List<Recipe>> snapshot) {
+          if (snapshot.hasData) {
+            List<Widget> children = [];
+            int i = 0;
+            for (var rec in snapshot.data ?? []) {
+              int index = i;
+              children.add(
+                GestureDetector(
+                  child: Container(
+                    color: i == _selectedRecipe ? Colors.blue : Colors.white,
+                    child: ListTile(title: Text(rec.name)),
+                  ),
+                  onTap: () {
+                    setState(() {
+                      _selectedRecipe = index;
+                      _recipeToView = rec;
+                    });
+                  },
+                ),
+              );
+              i++;
+            }
+            return ListView(children: children);
+          } else if (snapshot.hasError) {
+            return fancyErrorMessage(snapshot.error.toString());
+          } else {
+            return fancyProgressIndicator();
+          }
+        });
   }
 
   Widget createRecipeView() {
@@ -95,18 +86,11 @@ class _PlainRecipePageState extends State<PlainRecipePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Plain Recipe Page')),
-      body: Center(
-          child: SizedBox(
-              width: 820,
-              height: 800,
-              child: Row(
-                children: [
-                  // Placeholder for recipe menu
-                  createRecipeNameList(context),
-                  VerticalDivider(),
-                  createRecipeView(),
-                ],
-              ))),
+      drawer: Drawer(child: createRecipeNameList(context)),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        child: createRecipeView(),
+      ),
     );
   }
 }
