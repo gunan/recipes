@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:recipes/error_stuffs.dart';
 import 'package:recipes/plain_recipe_page/ingredients_card.dart';
 import 'package:recipes/plain_recipe_page/instructions_card.dart';
+import 'package:recipes/plain_recipe_page/recipe_list.dart';
 import 'package:recipes/recipe_reader_from_json.dart';
 import 'package:recipes/plain_recipe_page/recipe_title_card.dart';
 
@@ -38,40 +39,6 @@ class _PlainRecipePageState extends State<PlainRecipePage> {
     }
   }
 
-  Widget createRecipeNameList(BuildContext context) {
-    return FutureBuilder<List<Recipe>>(
-        future: _recipeList,
-        builder: (BuildContext context, AsyncSnapshot<List<Recipe>> snapshot) {
-          if (snapshot.hasData) {
-            List<Widget> children = [];
-            int i = 0;
-            for (var rec in snapshot.data ?? []) {
-              int index = i;
-              children.add(
-                GestureDetector(
-                  child: Container(
-                    color: i == _selectedRecipe ? Colors.blue : Colors.white,
-                    child: ListTile(title: Text(rec.name)),
-                  ),
-                  onTap: () {
-                    setState(() {
-                      _selectedRecipe = index;
-                      _recipeToView = rec;
-                    });
-                  },
-                ),
-              );
-              i++;
-            }
-            return ListView(children: children);
-          } else if (snapshot.hasError) {
-            return fancyErrorMessage(snapshot.error.toString());
-          } else {
-            return fancyProgressIndicator();
-          }
-        });
-  }
-
   Widget createRecipeView() {
     // if nothing is selected yet, let people know how to select something
     if (_selectedRecipe == -1) {
@@ -86,7 +53,13 @@ class _PlainRecipePageState extends State<PlainRecipePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Plain Recipe Page')),
-      drawer: Drawer(child: createRecipeNameList(context)),
+      drawer: Drawer(
+          child: RecipeList(this._recipeList, this._selectedRecipe, (v, r) {
+        setState(() {
+          this._selectedRecipe = v;
+          this._recipeToView = r;
+        });
+      })),
       body: Container(
         width: MediaQuery.of(context).size.width,
         child: createRecipeView(),
