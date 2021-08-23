@@ -16,7 +16,16 @@ class RecipeList extends StatelessWidget {
         future: _recipeList,
         builder: (BuildContext context, AsyncSnapshot<List<Recipe>> snapshot) {
           if (snapshot.hasData) {
-            List<Widget> children = [];
+            List<Widget> children = [
+              DrawerHeader(
+                  child: Column(children: [
+                Row(children: [
+                  Icon(Icons.restaurant, color: Colors.grey, size: 40),
+                  Text('Pick an item'),
+                ]),
+                TextField(),
+              ]))
+            ];
             int i = 0;
             for (var rec in snapshot.data ?? []) {
               int index = i;
