@@ -15,7 +15,6 @@ class PlainRecipePage extends StatefulWidget {
 class _PlainRecipePageState extends State<PlainRecipePage> {
   // Just bear with me for now...
   final Future<List<Recipe>> _recipeList = loadRecipesFromJSON();
-  int _selectedRecipe = -1;
   Recipe? _recipeToView;
 
   Widget _buildRecipeStuff(Recipe? r) {
@@ -41,7 +40,7 @@ class _PlainRecipePageState extends State<PlainRecipePage> {
 
   Widget createRecipeView() {
     // if nothing is selected yet, let people know how to select something
-    if (_selectedRecipe == -1) {
+    if (_recipeToView == null) {
       return Text("Please first select a recipe from the left side.",
           style: TextStyle(fontSize: 24));
     } else {
@@ -54,9 +53,8 @@ class _PlainRecipePageState extends State<PlainRecipePage> {
     return Scaffold(
       appBar: AppBar(title: Text('Plain Recipe Page')),
       drawer: Drawer(
-          child: RecipeList(this._recipeList, this._selectedRecipe, (v, r) {
+          child: RecipeList(this._recipeList, (r) {
         setState(() {
-          this._selectedRecipe = v;
           this._recipeToView = r;
         });
       })),

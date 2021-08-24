@@ -3,12 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:recipes/error_stuffs.dart';
 import 'package:recipes/recipe_reader_from_json.dart';
 
-class RecipeList extends StatelessWidget {
+class RecipeList extends StatefulWidget {
   final Future<List<Recipe>> _recipeList;
   final Function _callback;
-  final int _selectedRecipe;
 
-  RecipeList(this._recipeList, this._selectedRecipe, this._callback);
+  RecipeList(this._recipeList, this._callback);
+
+  @override
+  State<RecipeList> createState() =>
+      _RecipeListState(this._recipeList, this._callback);
+}
+
+class _RecipeListState extends State<RecipeList> {
+  final Future<List<Recipe>> _recipeList;
+  final Function _callback;
+
+  int _selectedRecipe = -1;
+
+  _RecipeListState(this._recipeList, this._callback);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +48,10 @@ class RecipeList extends StatelessWidget {
                     child: ListTile(title: Text(rec.name)),
                   ),
                   onTap: () {
-                    this._callback(index, rec);
+                    setState(() {
+                      this._selectedRecipe = index;
+                    });
+                    this._callback(rec);
                   },
                 ),
               );
