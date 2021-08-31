@@ -15,6 +15,8 @@ class PlainRecipePage extends StatefulWidget {
 class _PlainRecipePageState extends State<PlainRecipePage> {
   // Just bear with me for now...
   final Future<List<Recipe>> _recipeList = loadRecipesFromJSON();
+  final GlobalKey<ScaffoldState> _scaffoldKeyForDrawer =
+      new GlobalKey<ScaffoldState>();
   Recipe? _recipeToView;
 
   Widget _buildRecipeStuff(Recipe? r) {
@@ -38,10 +40,11 @@ class _PlainRecipePageState extends State<PlainRecipePage> {
     }
   }
 
-  Widget createRecipeView() {
+  Widget createRecipeView(BuildContext context) {
     // if nothing is selected yet, let people know how to select something
     if (_recipeToView == null) {
-      return Text("Please first select a recipe from the left side.",
+      _scaffoldKeyForDrawer.currentState?.openDrawer();
+      return Text("Please first select a recipe.",
           style: TextStyle(fontSize: 24));
     } else {
       return _buildRecipeStuff(this._recipeToView);
@@ -60,8 +63,9 @@ class _PlainRecipePageState extends State<PlainRecipePage> {
       })),
       body: Container(
         width: MediaQuery.of(context).size.width,
-        child: createRecipeView(),
+        child: createRecipeView(context),
       ),
+      key: _scaffoldKeyForDrawer,
     );
   }
 }
