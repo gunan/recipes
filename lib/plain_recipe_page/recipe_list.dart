@@ -61,7 +61,9 @@ class _RecipeListState extends State<RecipeList> {
                       setState(() {
                         this._filterText = value;
                       });
-                    }),
+                    },
+                    decoration:
+                        InputDecoration(prefixIcon: Icon(Icons.search))),
               ]))
             ];
             _createFilteredRecipeList(snapshot.data ?? [], _filterText)
