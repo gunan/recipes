@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:recipes/grid_buttons/grid_buttons.dart';
-import 'package:recipes/fancy_recipe_page/fancy_recipe_page.dart';
 import 'package:recipes/plain_recipe_page/plain_recipe_page.dart';
 
 void main() {
@@ -12,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Gunhan\'s recipes',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -25,69 +23,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  void toFancyRecipePage(BuildContext context) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => FancyRecipePage()));
-  }
-
-  void toPlainRecipePage(BuildContext context) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => PlainRecipePage()));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: GridView.extent(
-            maxCrossAxisExtent: 200,
-            padding: EdgeInsets.all(10),
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            children: <Widget>[
-              GridButton("Cool recipes", Colors.blue,
-                  () => toFancyRecipePage(context)),
-              GridButton("Simple recipes", Colors.green,
-                  () => toPlainRecipePage(context)),
-            ]),
-      ),
+      home: PlainRecipePage(),
     );
   }
 }

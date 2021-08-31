@@ -51,7 +51,7 @@ class _PlainRecipePageState extends State<PlainRecipePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Plain Recipe Page')),
+      appBar: AppBar(title: Text('Gunhan\'s super recipes')),
       drawer: Drawer(
           child: RecipeList(this._recipeList, (r) {
         setState(() {
